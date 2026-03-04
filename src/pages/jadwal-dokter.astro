@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Simulasi data yang bisa dipindahkan ke file .json terpisah nantinya
+const jadwalDokter = [
+  { nama: "Larissa, dr., SpPK., MMRS", poli: "Laboratorium Klinik", hari: "Senin - Jumat", jam: "08.00 - 15.00" },
+  { nama: "Dewi Diana Sari, dr", poli: "Poli Umum", hari: "Senin", jam: "08.00 - 11.00" },
+  { nama: "Rosmelia Warganegara, drg", poli: "Poli Gigi & Mulut", hari: "Sen, Rab, Jum", jam: "08.00 - 16.00" },
+  { nama: "Sugiharti, dr., Sp.M", poli: "Poli Spesialis Mata", hari: "Rabu & Jum'at", jam: "08.00 - Selesai" },
+  { nama: "Teddy Hidayat, dr., Sp.KJ", poli: "Kesehatan Jiwa", hari: "Rabu & Jum'at", jam: "11.00 - 12.00" }
+];
+---
+
+<Layout title="Jadwal Dokter">
+	<div class="container mx-auto px-4 py-12">
+		<h1 class="text-3xl font-bold text-blue-900 mb-8 border-b-2 border-yellow-500 pb-2 inline-block">Jadwal Praktek Dokter</h1>
+		
+		<div class="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-100">
+			<table class="min-w-full text-left text-sm whitespace-nowrap">
+				<thead class="bg-blue-800 text-white">
+					<tr>
+						<th class="px-6 py-4 font-semibold">Nama Dokter</th>
+						<th class="px-6 py-4 font-semibold">Poli Layanan</th>
+						<th class="px-6 py-4 font-semibold">Hari Praktek</th>
+						<th class="px-6 py-4 font-semibold">Jam Praktek</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-gray-200">
+					{jadwalDokter.map((dokter) => (
+						<tr class="hover:bg-blue-50 transition-colors">
+							<td class="px-6 py-4 font-medium text-gray-900">{dokter.nama}</td>
+							<td class="px-6 py-4 text-gray-700">{dokter.poli}</td>
+							<td class="px-6 py-4 text-gray-700">{dokter.hari}</td>
+							<td class="px-6 py-4 text-gray-700">{dokter.jam}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</Layout>

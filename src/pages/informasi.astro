@@ -1,0 +1,252 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Data Tarif (Bisa dipindah ke file JSON jika sudah sangat banyak)
+const daftarTarif = [
+    {
+        kategori: "Poli Umum",
+        tindakan: "Konsultasi Dokter Umum",
+        harga: "Rp 50.000",
+    },
+    {
+        kategori: "Poli Umum",
+        tindakan: "Surat Keterangan Sehat",
+        harga: "Rp 35.000",
+    },
+    {
+        kategori: "Poli Gigi",
+        tindakan: "Pembersihan Karang Gigi (Scaling) - Ringan",
+        harga: "Rp 250.000",
+    },
+    {
+        kategori: "Poli Gigi",
+        tindakan: "Cabut Gigi Tetap (Tanpa Komplikasi)",
+        harga: "Rp 200.000",
+    },
+    {
+        kategori: "Poli Gigi",
+        tindakan: "Tambal Sinar (Komposit)",
+        harga: "Rp 300.000",
+    },
+    {
+        kategori: "Laboratorium",
+        tindakan: "Cek Gula Darah Sewaktu",
+        harga: "Rp 25.000",
+    },
+    {
+        kategori: "Laboratorium",
+        tindakan: "Cek Kolesterol Total",
+        harga: "Rp 45.000",
+    },
+    { kategori: "Laboratorium", tindakan: "Cek Asam Urat", harga: "Rp 30.000" },
+    {
+        kategori: "Spesialis",
+        tindakan: "Konsultasi Dokter Spesialis",
+        harga: "Rp 150.000",
+    },
+    {
+        kategori: "Radiologi",
+        tindakan: "Rontgen Gigi (Periapikal)",
+        harga: "Rp 75.000",
+    },
+];
+
+// Data Paket MCU
+const paketMCU = [
+    {
+        nama: "Paket Dasar",
+        fitur: ["Pemeriksaan Fisik", "Gula Darah", "Asam Urat", "Kolesterol"],
+        harga: "Rp 150.000",
+    },
+    {
+        nama: "Paket Mahasiswa",
+        fitur: [
+            "Cek Kesehatan Umum",
+            "Bebas Narkoba (3 Parameter)",
+            "Surat Sehat",
+        ],
+        harga: "Rp 200.000",
+    },
+    {
+        nama: "Paket Eksekutif",
+        fitur: [
+            "Fisik Lengkap",
+            "Darah Rutin",
+            "Fungsi Hati & Ginjal",
+            "EKG Jantung",
+        ],
+        harga: "Rp 750.000",
+    },
+];
+---
+
+<Layout title="Informasi Tarif & MCU">
+    <section class="bg-blue-50 py-16">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl font-bold text-blue-900 mb-4">
+                Informasi & Tarif Layanan
+            </h1>
+            <p class="text-gray-600 max-w-2xl">
+                Klinik Unpad berkomitmen memberikan transparansi biaya layanan.
+                Pasien BPJS Kesehatan (Faskes Tingkat 1 Klinik Unpad) tidak
+                dikenakan biaya untuk layanan yang dijamin.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-16 container mx-auto px-4">
+        <h2
+            class="text-2xl font-bold text-blue-900 mb-8 flex items-center gap-3"
+        >
+            <span class="w-8 h-1 bg-yellow-500"></span> Paket Medical Check Up
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {
+                paketMCU.map((paket) => (
+                    <div class="bg-white border-2 border-gray-100 rounded-2xl p-8 hover:border-blue-500 transition-colors shadow-sm relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 bg-yellow-500 text-blue-950 text-xs font-bold px-4 py-1 rounded-bl-xl uppercase tracking-wider">
+                            Populer
+                        </div>
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4">
+                            {paket.nama}
+                        </h3>
+                        <ul class="space-y-3 mb-8">
+                            {paket.fitur.map((f) => (
+                                <li class="flex items-center gap-2 text-gray-600 text-sm italic">
+                                    <span class="text-green-500">✔</span> {f}
+                                </li>
+                            ))}
+                        </ul>
+                        <div class="text-3xl font-black text-blue-900">
+                            {paket.harga}
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2">
+                            *Harga sewaktu-waktu dapat berubah
+                        </p>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
+
+    <section class="py-16 bg-white border-t border-gray-100">
+        <div class="container mx-auto px-4">
+            <div
+                class="flex flex-col md:flex-row justify-between items-end gap-6 mb-8"
+            >
+                <div>
+                    <h2 class="text-2xl font-bold text-blue-900 mb-2">
+                        Daftar Tarif Tindakan
+                    </h2>
+                    <p class="text-sm text-gray-500 italic">
+                        Gunakan kolom pencarian untuk mempercepat penemuan jenis
+                        tindakan.
+                    </p>
+                </div>
+                <div class="w-full md:w-96">
+                    <label for="searchTarif" class="sr-only"
+                        >Cari Tindakan</label
+                    >
+                    <input
+                        type="text"
+                        id="searchTarif"
+                        placeholder="Cari tindakan (misal: Gigi, Lab...)"
+                        class="w-full px-5 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all shadow-sm"
+                    />
+                </div>
+            </div>
+
+            <div
+                class="overflow-x-auto rounded-2xl border border-gray-100 shadow-xl"
+            >
+                <table class="w-full text-left" id="tableTarif">
+                    <thead>
+                        <tr
+                            class="bg-blue-900 text-white uppercase text-xs tracking-widest font-bold"
+                        >
+                            <th class="px-6 py-4">Kategori</th>
+                            <th class="px-6 py-4">Nama Tindakan / Layanan</th>
+                            <th class="px-6 py-4 text-right">Harga Estimasi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        {
+                            daftarTarif.map((t) => (
+                                <tr class="hover:bg-blue-50 transition-colors row-tarif">
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[10px] font-bold uppercase tracking-tighter">
+                                            {t.kategori}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-800 font-medium nama-tindakan">
+                                        {t.tindakan}
+                                    </td>
+                                    <td class="px-6 py-4 text-right font-bold text-blue-900">
+                                        {t.harga}
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+                <div
+                    id="noResults"
+                    class="hidden p-10 text-center text-gray-500 italic"
+                >
+                    Data tindakan tidak ditemukan...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 container mx-auto px-4">
+        <div
+            class="bg-blue-900 rounded-3xl p-8 md:p-12 text-white flex flex-col md:flex-row items-center gap-8"
+        >
+            <div class="text-5xl">📄</div>
+            <div>
+                <h2 class="text-2xl font-bold mb-2 italic">
+                    Informasi Pendaftaran BPJS
+                </h2>
+                <p class="text-blue-100 leading-relaxed text-sm">
+                    Bagi mahasiswa Unpad atau masyarakat umum yang ingin
+                    memindahkan Faskes Tingkat 1 ke Klinik Unpad, silakan
+                    gunakan aplikasi <strong>JKN Mobile</strong> atau kunjungi bagian
+                    administrasi kami dengan membawa KTP dan Kartu BPJS aktif.
+                </p>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<script>
+    // Script Pencarian Real-time
+    const searchInput = document.getElementById(
+        "searchTarif",
+    ) as HTMLInputElement;
+    const rows = document.querySelectorAll(".row-tarif");
+    const noResults = document.getElementById("noResults");
+
+    searchInput?.addEventListener("input", () => {
+        const filter = searchInput.value.toLowerCase();
+        let found = false;
+
+        rows.forEach((row) => {
+            const text =
+                row
+                    .querySelector(".nama-tindakan")
+                    ?.textContent?.toLowerCase() || "";
+            if (text.includes(filter)) {
+                (row as HTMLElement).style.display = "";
+                found = true;
+            } else {
+                (row as HTMLElement).style.display = "none";
+            }
+        });
+
+        // Tampilkan pesan jika tidak ada hasil
+        if (noResults) {
+            noResults.classList.toggle("hidden", found);
+        }
+    });
+</script>

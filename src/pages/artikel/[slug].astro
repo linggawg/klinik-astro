@@ -1,0 +1,104 @@
+---
+// src/pages/artikel/[slug].astro
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+// 1. Beri tahu Astro path apa saja yang harus di-generate
+export async function getStaticPaths() {
+    const artikelEntries = await getCollection("artikel");
+    return artikelEntries.map((entry) => ({
+        params: { slug: entry.slug },
+        props: { entry },
+    }));
+}
+
+// 2. Render konten Markdown
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Layout title={entry.data.title}>
+    <article class="py-16">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <a
+                href="/artikel"
+                class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 font-medium mb-8 bg-blue-50 px-4 py-2 rounded-full transition-colors"
+            >
+                &larr; Kembali ke Daftar Artikel
+            </a>
+
+            <header class="mb-10">
+                <span
+                    class="text-sm font-bold text-yellow-600 tracking-wider uppercase mb-3 block"
+                >
+                    {entry.data.category}
+                </span>
+                <h1
+                    class="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight"
+                >
+                    {entry.data.title}
+                </h1>
+                <div
+                    class="flex items-center gap-4 text-gray-600 text-sm border-b border-gray-200 pb-8"
+                >
+                    <div
+                        class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold"
+                    >
+                        {entry.data.author.charAt(0)}
+                    </div>
+                    <div>
+                        <p class="font-semibold text-gray-900">
+                            {entry.data.author}
+                        </p>
+                        <time datetime={entry.data.publishDate.toISOString()}>
+                            Diterbitkan pada {
+                                entry.data.publishDate.toLocaleDateString(
+                                    "id-ID",
+                                    {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    },
+                                )
+                            }
+                        </time>
+                    </div>
+                </div>
+            </header>
+
+            {
+                entry.data.image && (
+                    <img
+                        src={entry.data.image}
+                        alt={entry.data.title}
+                        class="w-full h-auto rounded-2xl mb-10 shadow-sm"
+                    />
+                )
+            }
+
+            <div
+                class="prose prose-lg md:prose-xl prose-blue max-w-none text-gray-800 prose-headings:font-bold prose-headings:text-blue-900 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-img:rounded-xl"
+            >
+                <Content />
+            </div>
+        </div>
+    </article>
+
+    <section class="bg-gray-50 py-12 border-t border-gray-200 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold text-blue-900 mb-4">
+                Punya Keluhan Kesehatan?
+            </h3>
+            <p class="text-gray-600 mb-6">
+                Jangan tunda pemeriksaan. Tim medis Klinik Unpad siap membantu
+                Anda.
+            </p>
+            <a
+                href="/jadwal-dokter"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-colors"
+            >
+                Cek Jadwal Dokter
+            </a>
+        </div>
+    </section>
+</Layout>
